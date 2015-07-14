@@ -8,7 +8,11 @@ $ = new function (a){
 		var cb = (callback||function(){});
 
 		var data = '';
-		var r = m.request(url).pipe(m.zlib.createGunzip());
+		var headers = {
+		  "accept-encoding" : "gzip,deflate",
+		};
+
+		var r = m.request({url: url, headers: headers}).pipe(m.zlib.createGunzip());
 
 		r.on('data', function(body){
 			data += body;
