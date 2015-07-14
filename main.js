@@ -32,7 +32,6 @@ mangaFox.getManga = function(callback){
 //Get the number of pages in a chapter
 mangaFox.getPages = function(manga, ch, callback){
 	$.get('http://mangafox.me/manga/'+mangaFox.fixTitle(manga)+'/c'+mangaFox.pad(ch,3)+'/1.html', function(d){
-		console.log(d.find('.l option'));
 		callback((d.find('.l option').length-2)/2);
 	}, true);
 };
