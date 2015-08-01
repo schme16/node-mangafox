@@ -40,21 +40,23 @@ mangaFox.getPages = function(manga, ch, callback){
 mangaFox.getImages = function(manga, ch, callback){
 	mangaFox.getPages(manga, ch, function(num){
 		var data = [];
+		var numPageRequestToBeReturned = num;
 		
 		var temp = function(n){
 			$.get('http://mangafox.me/manga/'+mangaFox.fixTitle(manga)+'/v01/c'+mangaFox.pad(ch,3)+'/'+n+'.html', function(d){
-				data.unshift(d.find('#viewer img').attr('src'))
-				if(n>1){
-					temp(n-1);
-				}
-				else{
+				data[n-1] = d.find('#viewer img').attr('src');
+
+				numPageRequestToBeReturned--;
+
+				if(numPageRequestsToBeReturned <= 0){
 					(callback||function(){})(data);
 				}
 			}, true);
 		};
-		
-		temp(num);
 
+		for(i = 1; i <= num; i++){
+			temp(i);
+		}
 	});
 
 };
