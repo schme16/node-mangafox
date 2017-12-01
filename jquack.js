@@ -12,7 +12,10 @@ $ = new function (a){
 		  "accept-encoding" : "gzip,deflate",
 		};
 
-		var r = m.request({url: url, headers: headers}).pipe(m.zlib.createGunzip());
+		var r = m.request({
+			url: url, headers: headers,
+			rejectUnauthorized: false
+		}).pipe(m.zlib.createGunzip());
 
 		r.on('data', function(body){
 			data += body;
